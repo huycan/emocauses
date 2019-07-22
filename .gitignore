@@ -1,1 +1,7 @@
 tmp
+.idea
+.venv
+__pycache__
+
+.RData
+.Rhistory

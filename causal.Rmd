@@ -1,0 +1,110 @@
+---
+title: 'Causal Inference on Emotions in Conversations'
+author: 'Huy Tran'
+output: html_document
+---
+
+```{r include = FALSE}
+knitr::opts_chunk$set(include = FALSE, echo = FALSE, message = TRUE, warning = TRUE)
+```
+
+## Causal Inference Algorithm Installation
+
+### pcalg
+
+- Install the 2 dependencies from bioconductor
+<http://www.bioconductor.org/install/>
+
+```{r}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install(c("graph", "RBGL", "Rgraphviz"))
+```
+
+- Install the main library
+<https://cran.r-project.org/web/packages/pcalg/>
+
+```{r}
+install.packages('pcalg')
+```
+
+### Invariant Causal Prediction
+
+- Install the package
+<https://cran.r-project.org/web/packages/InvariantCausalPrediction/>
+```{r}
+install.packages('InvariantCausalPrediction')
+```
+
+
+## Load algorithms
+
+```{r}
+library('pcalg')
+library('InvariantCausalPrediction')
+```
+
+## Variables of Interest
+
+Emotion: labelled within the dataset
+Has_Dialogue_Acts: tagged by a ISO-standard tagger
+Has_Entities: classified by spacy
+Speaker_ID: recoded from Speaker
+Listener_ID: recoded from Speaker
+Season: labelled within the dataset
+
+### Casting to discrete values starting from 0 in order to apply algorithms
+
+```{r}
+emo <- read.csv('datasets/meld_yolo.csv')
+
+data <- subset(emo, select = c('Emotion', 'Has_Entities', 'Dialogue_Act_Comm_Func', 'Speaker_ID', 'Listener_ID', 'Season'))
+
+data$Emotion <- as.numeric(data$Emotion) - 1
+data$Has_Entities <- as.numeric(data$Has_Entities) - 1
+data$Dialogue_Act_Comm_Func <- as.numeric(data$Dialogue_Act_Comm_Func) - 1
+data$Speaker_ID <- as.numeric(data$Speaker_ID)
+data$Listener_ID <- as.numeric(data$Listener_ID)
+data$Season <- as.numeric(data$Season) - 1
+```
+
+## Apply algorithms
+
+### 1) InvariantCausal
+
+```{r}
+icp.data <- subset(data, select = c('Speaker_ID', 'Listener_ID', 'Has_Entities', 'Dialogue_Act_Comm_Func'))
+icp.fit <- InvariantCausalPrediction::ICP(as.matrix(icp.data), data[['Emotion']], data[['Season']])
+hidden.icp.fit <- InvariantCausalPrediction::hiddenICP(as.matrix(icp.data), data[['Emotion']], data[['Season']])
+
+icp.fit
+hidden.icp.fit
+```
+
+
+### 2) PC
+
+```{r}
+V <- colnames(data)
+suffStat <- list(dm = as.matrix(data), adaptDF = FALSE)
+pc.D <- pc(
+  suffStat,
+  ## independence test: G^2 statistic
+  indepTest = disCItest, alpha = 0.01, labels = V, verbose = FALSE
+)
+summary(pc.D)
+```
+
+
+### 3) FCI
+
+```{r}
+V <- colnames(data)
+suffStat <- list(dm = as.matrix(data), adaptDF = FALSE)
+fci.D <- fci(
+  suffStat,
+  ## independence test: G^2 statistic
+  indepTest = disCItest, alpha = 0.01, labels = V, verbose = FALSE
+)
+summary(fci.D)
+```
