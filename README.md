@@ -116,19 +116,25 @@ Links for dataset download is in the original repo <https://github.com/ColingPap
 ## References
 
 [MELD dataset](https://affective-meld.github.io/)
+
 Poria, S., Hazarika, D., Majumder, N., Naik, G., Cambria, E., & Mihalcea, R. (2018). Meld: A multimodal multi-party dataset for emotion recognition in conversations. ​ACL (57).
 
 [ISO independent dialogue tagger](https://github.com/ColingPaper2018/DialogueAct-Tagger)
+
 Mezza, S., Cervone, A., Tortoreto, G., Stepanov, E. A., & Riccardi, G. (2018). ISO-standard domain-independent dialogue act tagging for conversational agents. ​ COLING, (27) ​ .
 
 [pcalg](https://cran.r-project.org/package=pcalg)
+
 Kalisch, M., Hauser, A., Maechler, M., Colombo, D., Entner, D., Hoyer, P., ..., Eigenmann, M. (2019). pcalg: Methods for Graphical Models and Causal Inference (version 2.6-7) [Computer Software]. Retrieved from ​<https://cran.r-project.org/package=pcalg>
 
-Causal inference theory behind PC and FCI 
+Causal inference theory behind PC and FCI
+
 Spirtes, P., Glymour, C., & Scheines, R. (2000). Causation, prediction, and search. Adaptive computation and machine learning.
 
 [InvariantCausalPrediction](https://cran.r-project.org/package=InvariantCausalPrediction)
+
 Meinshausen, N. (2018). InvariantCausalPrediction: Invariant Causal Prediction (version 0.7-2) [Computer Software]. Retrieved from <https://cran.r-project.org/package=InvariantCausalPrediction>
 
 Theory behind InvariantCausalInference
+
 Peters, J., Bühlmann, P., & Meinshausen, N. (2016). Causal inference by using invariant prediction: identification and confidence intervals. ​ Journal of the Royal Statistical Society: Series B (Statistical Methodology), 78 ​ (5), 947-1012.
